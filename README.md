@@ -1,0 +1,4 @@
+docker-gemfire
+==============
+
+gemfire dockerfile
