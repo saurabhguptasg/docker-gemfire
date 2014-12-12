@@ -1,30 +1,18 @@
 #
-# GemFire 8 Dockerfile
+# GemFire 8 Locator Dockerfile
 #
 # https://github.com/dockerfile/java
 # https://github.com/dockerfile/java/tree/master/oracle-java8
 #
 
-# Pull base image.
-FROM dockerfile/ubuntu
+# Pull base gemfire image.
+FROM pivotal/gemfire-base
 
-# Install Java.
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk8-installer
+ENV SERVER_NAME $(date +NAME%Y%m%H%M%S)
+
+EXPOSE 40404
+#ENTRYPOINT java -cp $GEMFIRE/lib/server-dependencies.jar com.gemstone.gemfire.distributed.ServerLauncher start $SERVER_NAME --server-port=40404 --locator=$LOCATOR_HOST[$LOCATOR_PORT]
+#ENTRYPOINT gfsh start server --name=$(date +NAME%Y%m%H%M%S) --server-port=40404 --locators=$LOCATOR_HOST[$LOCATOR_PORT]
+ENTRYPOINT gfsh
 
 
-# Define working directory.
-WORKDIR /data
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-
-# Define default command.
-CMD ["bash"]
-
-#not fully done yet :)
