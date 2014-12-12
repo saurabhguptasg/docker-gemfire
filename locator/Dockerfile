@@ -5,30 +5,9 @@
 # https://github.com/dockerfile/java/tree/master/oracle-java8
 #
 
-# Pull base image.
-FROM dockerfile/ubuntu
-
-# Install Java.
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk8-installer
-
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-
-ADD Pivotal_GemFire_800_b48398_Linux_min.tar .
-
-ENV GEMFIRE /Pivotal_GemFire_800_b48398_Linux_min
-
-ENV PATH $PATH:$GEMFIRE/bin
-
-ENV GF_JAVA $JAVA_HOME/bin/java
+# Pull base gemfire image.
+FROM pivotal/gemfire-base
 
 EXPOSE 10335
-CMD gfsh start locator --name=locator1 --port=10335
+ENTRYPOINT java -cp $GEMFIRE/lib/locator-dependencies.jar com.gemstone.gemfire.distributed.LocatorLauncher start locator1 10335
 
