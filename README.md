@@ -35,11 +35,10 @@ at the gfsh command, set the following:
 you can then see gfsh connect to the locator, and can issue this command to see all the members:
 `list members`
 for output like:
-`
-  Name   | Id
- -------- | -------------------------------------------------
- locator1 | SaurabhGuptaMBP(locator1:79225:locator)<v0>:29532
- `
+
+`  Name   | Id                                                `
+` -------- | -------------------------------------------------`
+` locator1 | SaurabhGuptaMBP(locator1:79225:locator)<v0>:29532`
 
  ### NOTE: the server `Dockerfile` is not done yet :)
  you can shut down the locator from gfsh
